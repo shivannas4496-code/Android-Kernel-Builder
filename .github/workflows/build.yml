@@ -5,26 +5,22 @@ on:
 
 jobs:
   build:
-    # Switched to an explicit, stable runner to resolve the "ubuntu-latest label will migrate" notice
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
 
     steps:
-      # Upgraded checkout action to v4 to eliminate the Node.js 20 deprecation warning
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
       - name: Set up Build Environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y bc bison build-essential ccache curl flex glibc-source libelf-dev libssl-dev libtinfo5 openjdk-17-jdk target-clif-32 target-clif-64 target-efi-32 target-efi-64 target-grub-efi-32 target-grub-efi-64 target-syslinux target-syslinux-efi unzip zip
+          sudo apt-get install -y bc bison build-essential ccache curl flex libelf-dev libssl-dev libtinfo5 unzip zip
 
       - name: Compile Exynos 9611 Kernel
         run: |
           echo "Starting build process for Overclock_F41..."
-          # Replace below line with your exact compile/execution script if different
-          # ./build.sh universal9611
+          # Insert your actual build execution command here if needed
 
-      # FIXED: Migrated from deprecated v3 to v4 to fix the critical failure
       - name: Upload Compiled Kernel Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -33,4 +29,3 @@ jobs:
             out/arch/arm64/boot/Image.lz4
             out/arch/arm64/boot/Image
           if-no-files-found: warn
-          
